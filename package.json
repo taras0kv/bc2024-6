@@ -1,0 +1,21 @@
+{
+	"name": "lab_5",
+	"version": "1.0.0",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "nodemon app.js -- localhost 3000 ./cache"
+	},
+	"keywords": [],
+	"author": "Your Name",
+	"license": "ISC",
+	"description": "A simple Node.js lab project",
+	"dependencies": {
+		"commander": "^12.1.0",
+		"express": "^4.21.1",
+		"multer": "^1.4.5-lts.1"
+	},
+	"devDependencies": {
+		"nodemon": "^3.1.7"
+	}
+}
