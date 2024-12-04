@@ -1,11 +1,9 @@
-version: '3.8'
-
+version: '3'
 services:
-  web-service:
+  web:
     build: .
     ports:
       - "3000:3000"
     volumes:
       - .:/app
-      - /app/node_modules
-    command: npm start
+    command: nodemon app.js --host 0.0.0.0 --port 3000 --cache ./cache
