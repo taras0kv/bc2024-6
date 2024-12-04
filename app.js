@@ -2,6 +2,8 @@ const { Command } = require('commander')
 const express = require('express')
 const fs = require('fs')
 const path = require('path')
+const swaggerJsdoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
 const app = express()
 
 // Налаштування Commander.js для командного рядка
@@ -23,7 +25,27 @@ if (!fs.existsSync(CACHE_DIR)) {
 	fs.mkdirSync(CACHE_DIR, { recursive: true })
 }
 
-// Маршрут для отримання всіх нотаток
+// Swagger конфігурація
+const swaggerOptions = {
+	definition: {
+		openapi: '3.0.0',
+		info: {
+			title: 'Notes API',
+			version: '1.0.0',
+			description: 'A simple Express Notes API',
+		},
+	},
+	apis: ['./app.js'], // Шлях до файлів, де описано API
+}
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions)
+
+// Підключення Swagger UI для доступу до документації
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec))
+
+// Опис ендпоінтів з коментарями Swagger
+
+
 app.get('/notes', (req, res) => {
 	const notes = []
 	fs.readdirSync(CACHE_DIR).forEach(file => {
@@ -33,7 +55,7 @@ app.get('/notes', (req, res) => {
 	res.status(200).json(notes)
 })
 
-// Маршрут для отримання окремої нотатки
+
 app.get('/notes/:name', (req, res) => {
 	const notePath = path.join(CACHE_DIR, req.params.name)
 	if (!fs.existsSync(notePath)) {
@@ -43,7 +65,7 @@ app.get('/notes/:name', (req, res) => {
 	res.send(noteContent)
 })
 
-// Маршрут для створення нової нотатки
+
 app.post('/notes/:name', express.text(), (req, res) => {
 	const notePath = path.join(CACHE_DIR, req.params.name)
 	if (fs.existsSync(notePath)) {
@@ -53,7 +75,7 @@ app.post('/notes/:name', express.text(), (req, res) => {
 	res.status(201).send('Created')
 })
 
-// Маршрут для оновлення тексту існуючої нотатки
+
 app.put('/notes/:name', express.text(), (req, res) => {
 	const notePath = path.join(CACHE_DIR, req.params.name)
 	if (!fs.existsSync(notePath)) {
@@ -63,7 +85,7 @@ app.put('/notes/:name', express.text(), (req, res) => {
 	res.send('Updated')
 })
 
-// Маршрут для видалення нотатки
+
 app.delete('/notes/:name', (req, res) => {
 	const notePath = path.join(CACHE_DIR, req.params.name)
 	if (!fs.existsSync(notePath)) {
