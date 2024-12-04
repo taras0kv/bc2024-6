@@ -3,8 +3,9 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
+		"dev": "nodemon app.js",
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"start": "nodemon app.js -- localhost 3000 ./cache"
+		"start": "nodemon app.js -h localhost -p 3000 -c ./cache"
 	},
 	"keywords": [],
 	"author": "Your Name",
@@ -13,7 +14,11 @@
 	"dependencies": {
 		"commander": "^12.1.0",
 		"express": "^4.21.1",
-		"multer": "^1.4.5-lts.1"
+		"fs": "^0.0.1-security",
+		"multer": "^1.4.5-lts.1",
+		"path": "^0.12.7",
+		"swagger-jsdoc": "^6.2.8",
+		"swagger-ui-express": "^5.0.1"
 	},
 	"devDependencies": {
 		"nodemon": "^3.1.7"
